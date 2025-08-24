@@ -1,0 +1,93 @@
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Gestión de Deudas</h2>
+
+    <div class="mb-3">
+        <label class="form-label fw-bold">Filtrar por estado</label>
+        <select class="form-select w-auto"
+                (change)="onStateChange($event)">
+        <option value="0">Todos</option>
+        @for (state of states; track state.id) {
+            <option [value]="state.id">{{ state.name }}</option>
+        }
+        </select>
+    </div>
+
+  <!-- Botones para cambiar vista -->
+  <div class="d-flex justify-content-center mb-4">
+    <button 
+      class="btn btn-outline-primary me-2" 
+      [class.active]="view() === 'myDebts'"
+      (click)="view.set('myDebts')">
+      Mis Deudas
+    </button>
+
+    <button 
+      class="btn btn-outline-success" 
+      [class.active]="view() === 'owedToMe'"
+      (click)="view.set('owedToMe')">
+      Los que me deben
+    </button>
+  </div>
+
+  <!-- Mis deudas -->
+  @if (view() === 'myDebts') {
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Mis Deudas</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        @for (debt of userDebts(); track debt.id) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Debo a:</strong> {{ debt.creditorName }} <br />
+              <strong>Descripcion:</strong> {{ debt.description }} <br />
+            </div>
+            <div class="text-end">
+              <span class="badge bg-primary d-block mb-1">
+                ${{ debt.amount }}
+              </span>
+              <span class="badge" [ngClass]="getStateClass(debt.stateId)">
+                {{ debt.stateName }}
+              </span>
+            </div>
+          </li>
+        } @empty {
+          <li class="list-group-item text-center text-muted">
+            No tienes deudas registradas.
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
+  <!-- Los que me deben -->
+  @if (view() === 'owedToMe') {
+    <div class="card shadow-sm">
+      <div class="card-header bg-success text-white">
+        <h5 class="mb-0">Los que me deben</h5>
+      </div>
+      <ul class="list-group list-group-flush">
+        @for (debt of debtors(); track debt.id) {
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>Me debe:</strong> {{ debt.debtorName }} <br />
+              <strong>Descripcion:</strong> {{ debt.description }} <br />
+            </div>
+            <div class="text-end">
+              <span class="badge bg-success d-block mb-1">
+                ${{ debt.amount }}
+              </span>
+              <span class="badge" [ngClass]="getStateClass(debt.stateId)">
+                {{ debt.stateName }}
+              </span>
+            </div>
+          </li>
+        } @empty {
+          <li class="list-group-item text-center text-muted">
+            Nadie te debe dinero.
+          </li>
+        }
+      </ul>
+    </div>
+  }
+</div>
