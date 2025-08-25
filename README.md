@@ -1,3 +1,18 @@
+Decisiones Tecnicas.
+
+Se han creado componentes para Login, Listado de deudas, detalles de deudas, creacion de una nueva deuda, y pagos.
+Se crearon los servicios necesarios para las consultas HTTP que en este caso son solo POST por facilidad y ligeresa de desarrollo.
+Se crearon servicios para cada componente que administran lo necesario para el correcto funcionamiento de los mismos.
+Se utliza localstorage para almacenar data necesarias en los distintos componentes.
+Se utiliza standAlone para todo el proyecto.
+Se utilizan injecciones de dependencias mediente inject() y tambien por constructor. Solo para mostrar distintans alternativas.
+Se utilizan tanto formularios reactivos como signals. 
+Todo con la intencion de demostrar que no solo se manejan las versiones antiguas de angular si no tambien las modernas.
+Estoy en constante aprendizaje.
+
+Se es consciente de que el inicio de session aun necesita bastantes cosas como JWT y guards. 
+Tambien el uso de interceptores no esta utilizado en el proyecto mas por cuestion de tiempo.
+
 # DebtDVP
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.11.
@@ -57,3 +72,6 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+
