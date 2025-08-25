@@ -4,6 +4,7 @@ import { DebtsService } from '../../../Services/debts.service';
 import { UsersService } from '../../../Services/users.service';
 import { CreateDebt } from '../../../Interfaces/CreateDebt';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { LocalStorageService } from '../../../Services/local-storage.service';
 
 @Component({
   selector: 'app-debt-create',
@@ -15,11 +16,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 export class DebtCreateComponent {
 
   private router = inject(Router);
+  private localStorageService = inject(LocalStorageService);
   form: FormGroup;
   loading = signal(false);
   errorMessage = signal('');
   debtors = signal<any[]>([]);
-  userId!: number;
+  userId = signal("");
 
   constructor(private fb: FormBuilder, private userService: UsersService, private route: ActivatedRoute, private debtService:DebtsService) {
     this.form = this.fb.group({
@@ -30,8 +32,14 @@ export class DebtCreateComponent {
   }
 
   ngOnInit(): void {
-    this.userId = Number(this.route.snapshot.paramMap.get('userId'));
-    this.loadDebtors();
+    let userId = this.localStorageService.getItem("userId");
+    if(userId){
+      this.userId.set(userId) 
+      this.loadDebtors();
+    }  
+    else{
+      this.router.navigate(['']);
+    }
   }
 
   loadDebtors() {
@@ -47,12 +55,12 @@ export class DebtCreateComponent {
   onSubmit() {
     if (this.form.invalid) return;
     const values = this.form.value as CreateDebt
-    values.creditorId = this.userId;
+    values.creditorId = +this.userId();
     this.loading.set(true);
     this.debtService.CreateDebt(values).subscribe({
       next: (res) => {
         if(res){
-          this.router.navigate(['/myDebts',this.userId]);
+          this.router.navigate(['/myDebts']);
         }
         
       },

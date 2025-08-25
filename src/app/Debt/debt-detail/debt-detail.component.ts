@@ -13,7 +13,6 @@ import { NgClass, CurrencyPipe } from '@angular/common';
 export class DebtDetailComponent {
   debt = signal<Debt | null>(null);
   loading = signal(true);
-  userId = signal(0);
 
   constructor(
     private route: ActivatedRoute,
@@ -21,9 +20,8 @@ export class DebtDetailComponent {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('debtId'));
-    this.userId.set(id);
-    this.debtsService.GetDebtById(id).subscribe({
+    const debtid = Number(this.route.snapshot.paramMap.get('debtId'));
+    this.debtsService.GetDebtById(debtid).subscribe({
       next: (res) => {
         this.debt.set(res);
         this.loading.set(false);

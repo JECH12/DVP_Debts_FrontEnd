@@ -11,7 +11,7 @@ export const routes: Routes = [
         component: LoginComponent,
     },
     { 
-        path: 'myDebts/:userId', 
+        path: 'myDebts', 
         component: DebtsComponent 
     },
     {
@@ -19,7 +19,7 @@ export const routes: Routes = [
         component: DebtDetailComponent
     },
     {
-        path:'createDebt/:userId',
+        path:'createDebt',
         component: DebtCreateComponent
     }
     ,

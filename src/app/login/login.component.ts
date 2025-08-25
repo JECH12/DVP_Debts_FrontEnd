@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpService } from '../../Services/http.service';
-import { enviroment } from '../../enviroment/enviroment';
 import { LoginService } from '../../Services/login.service';
 import { Login } from '../../Interfaces/login';
 import { Router } from '@angular/router';
+import { LocalStorageService } from '../../Services/local-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +17,9 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private loginService = inject(LoginService);
   private router = inject(Router);
+  private localStorageService = inject(LocalStorageService);
+
+  userIdKey = "userId";
 
   loading = signal(false);
   message = signal('');
@@ -39,7 +41,8 @@ export class LoginComponent {
 
       this.loginService.login(values).subscribe({
         next: (response) => {
-          this.router.navigate(['/myDebts', response.id]);
+          this.localStorageService.setItem(this.userIdKey, response.id)
+          this.router.navigate(['/myDebts']);
         },
         error: () => {
           this.loading.set(false);

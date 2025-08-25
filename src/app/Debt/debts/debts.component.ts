@@ -1,11 +1,12 @@
-import { Component, Inject, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { DebtDto } from '../../../Interfaces/Debtor';
 import { DebtsService } from '../../../Services/debts.service';
 import { GetDebtsDto } from '../../../Interfaces/GetDebts';
-import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgClass } from '@angular/common';
 import { DebtState } from '../../../Enums/DebtState';
 import { forkJoin } from 'rxjs';
+import { LocalStorageService } from '../../../Services/local-storage.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-debts',
@@ -15,7 +16,7 @@ import { forkJoin } from 'rxjs';
 })
 export class DebtsComponent {
   private debtsService = inject(DebtsService)
-  private route = inject(ActivatedRoute);
+  private localStorageService = inject(LocalStorageService);
   view = signal<'myDebts' | 'owedToMe'>('myDebts');
 
   userDebts = signal<DebtDto[]>([]);
@@ -30,14 +31,12 @@ export class DebtsComponent {
   userId = signal(0);
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get("userId");
+      const id = this.localStorageService.getItem("userId")
 
       if(id){
         this.userId.set(+id);
         this.loadDebts(+id);
       }
-    })
     
   }
 

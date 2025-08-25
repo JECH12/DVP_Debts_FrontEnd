@@ -3,7 +3,6 @@ import { HttpService } from './http.service';
 import { enviroment } from '../enviroment/enviroment';
 import { GetDebtsDto } from '../Interfaces/GetDebts';
 import { Observable } from 'rxjs';
-import { Debt } from '../Interfaces/Debt';
 import { CreateDebt } from '../Interfaces/CreateDebt';
 
 

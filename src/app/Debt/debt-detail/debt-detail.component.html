@@ -35,10 +35,10 @@
                 [ngClass]="{
                   'badge bg-warning text-dark': d.stateId === 1,
                   'badge bg-success': d.stateId === 3,
-                  'badge bg-danger': d.stateId === 2
+                  'badge bg-info text-dark': d.stateId === 2
                 }"
               >
-                {{ d.stateId === 1 ? 'Pendiente' : d.stateId === 3 ? 'Pagada' : 'Pendiente de pago' }}
+                {{ d.stateId === 1 ? 'Pendiente' : d.stateId === 3 ? 'Pagada' : 'Parcialmente Pagada' }}
               </span>
             </li>
           </ul>
@@ -47,7 +47,7 @@
           <div class="text-center">
             <button 
               class="btn btn-success"
-              [routerLink]="['/myDebts', userId()]">
+              [routerLink]="['/myDebts']">
               Volver a Mis Deudas
             </button>
           </div>
