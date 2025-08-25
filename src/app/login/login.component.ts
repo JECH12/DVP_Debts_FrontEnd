@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpService } from '../../Services/http.service';
 import { enviroment } from '../../enviroment/enviroment';
@@ -14,15 +14,20 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  private fb = inject(FormBuilder);
+  private loginService = inject(LoginService);
+  private router = inject(Router);
+
   loading = signal(false);
   message = signal('');
   loginForm;
 
-  constructor(private fb:FormBuilder, private loginService:LoginService, private router: Router){
+  constructor(){
     this.loginForm = this.fb.group({
-    email:['', [Validators.required, Validators.email]],
-    password:['', Validators.required]
-  });
+      email:['', [Validators.required, Validators.email]],
+      password:['', Validators.required]
+    });
   }
 
   onSubmit() {

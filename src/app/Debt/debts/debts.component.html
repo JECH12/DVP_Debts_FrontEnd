@@ -1,16 +1,22 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">Gestión de Deudas</h2>
 
-    <div class="mb-3">
-        <label class="form-label fw-bold">Filtrar por estado</label>
-        <select class="form-select w-auto"
-                (change)="onStateChange($event)">
-        <option value="0">Todos</option>
-        @for (state of states; track state.id) {
-            <option [value]="state.id">{{ state.name }}</option>
-        }
-        </select>
-    </div>
+  <div class="mb-3">
+    <label class="form-label fw-bold">Filtrar por estado</label>
+    <select class="form-select w-auto" (change)="onStateChange($event)">
+      <option value="0">Todos</option>
+      @for (state of states; track state.id) {
+        <option [value]="state.id">{{ state.name }}</option>
+      }
+    </select>    
+  </div>
+  <div class="mb-3">
+    <button 
+      class="btn btn-success"
+      [routerLink]="['/createDebt', userId()]">
+      ➕ Nueva Deuda
+    </button>
+  </div>
 
   <!-- Botones para cambiar vista -->
   <div class="d-flex justify-content-center mb-4">
@@ -25,7 +31,7 @@
       class="btn btn-outline-success" 
       [class.active]="view() === 'owedToMe'"
       (click)="view.set('owedToMe')">
-      Los que me deben
+      Quien me debe?
     </button>
   </div>
 
@@ -40,15 +46,27 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
               <strong>Debo a:</strong> {{ debt.creditorName }} <br />
-              <strong>Descripcion:</strong> {{ debt.description }} <br />
+              <strong>Descripción:</strong> {{ debt.description }} <br />
             </div>
             <div class="text-end">
               <span class="badge bg-primary d-block mb-1">
                 ${{ debt.amount }}
               </span>
-              <span class="badge" [ngClass]="getStateClass(debt.stateId)">
+              <span class="badge mb-2" [ngClass]="getStateClass(debt.stateId)">
                 {{ debt.stateName }}
-              </span>
+              </span> 
+              <button 
+                    class="btn btn-sm btn-primary ms-3"
+                    [routerLink]="['/debt-detail', debt.id]"
+                    title="Ver detalle">
+                    <i class="bi bi-search"></i>
+             </button>
+             <button 
+                    class="btn btn-sm btn-success ms-3"
+                    [routerLink]="['/pay', debt.id]"
+                    title="Pagar">
+                    <i class="bi bi-cash-coin"></i>
+             </button>
             </div>
           </li>
         } @empty {
@@ -71,15 +89,21 @@
           <li class="list-group-item d-flex justify-content-between align-items-center">
             <div>
               <strong>Me debe:</strong> {{ debt.debtorName }} <br />
-              <strong>Descripcion:</strong> {{ debt.description }} <br />
+              <strong>Descripción:</strong> {{ debt.description }} <br />
             </div>
             <div class="text-end">
               <span class="badge bg-success d-block mb-1">
                 ${{ debt.amount }}
               </span>
-              <span class="badge" [ngClass]="getStateClass(debt.stateId)">
+              <span class="badge mb-2" [ngClass]="getStateClass(debt.stateId)">
                 {{ debt.stateName }}
               </span>
+              <button 
+                    class="btn btn-sm btn-primary ms-3"
+                    [routerLink]="['/debt-detail', debt.id]"
+                    title="Ver detalle">
+                    <i class="bi bi-search"></i>
+             </button>
             </div>
           </li>
         } @empty {

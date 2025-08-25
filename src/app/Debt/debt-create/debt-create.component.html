@@ -1,0 +1,54 @@
+<div class="d-flex align-items-center justify-content-center vh-100 bg-light">
+  <div class="card shadow-lg w-100" style="max-width: 600px;">
+    <div class="card-body">
+      <h2 class="card-title text-primary mb-4 border-bottom pb-2">
+        ➕ Registrar Nueva Deuda
+      </h2>
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Deudor</label>
+          <select formControlName="debtorId" class="form-select">
+            <option [ngValue]="null" disabled selected>Seleccione un deudor</option>
+            @for (debtor of debtors(); track debtor.id) {
+              <option [value]="debtor.id">{{ debtor.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Monto</label>
+          <input type="number" formControlName="amount" class="form-control" />
+        </div>
+
+        <!-- Descripción -->
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Descripción</label>
+          <textarea formControlName="description" class="form-control"></textarea>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" [disabled]="loading()" class="btn btn-success">
+            @if (loading()) {
+              <span class="spinner-border spinner-border-sm me-2"></span> Guardando...
+            } @else {
+              Registrar
+            }
+          </button>
+          
+            <button 
+                    class="btn btn-primary ms-3"
+                    [routerLink]="['/myDebts', userId]">
+                    Volver
+            </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

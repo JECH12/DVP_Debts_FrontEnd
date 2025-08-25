@@ -1,15 +1,15 @@
-import { Component, inject, signal } from '@angular/core';
-import { DebtDto } from '../../Interfaces/Debtor';
-import { DebtsService } from '../../Services/debts.service';
-import { GetDebtsDto } from '../../Interfaces/GetDebts';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Inject, inject, signal } from '@angular/core';
+import { DebtDto } from '../../../Interfaces/Debtor';
+import { DebtsService } from '../../../Services/debts.service';
+import { GetDebtsDto } from '../../../Interfaces/GetDebts';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgClass } from '@angular/common';
-import { DebtState } from '../../Enums/DebtState';
+import { DebtState } from '../../../Enums/DebtState';
 import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-debts',
-  imports: [NgClass],
+  imports: [NgClass,RouterModule],
   templateUrl: './debts.component.html',
   styleUrl: './debts.component.css'
 })
@@ -86,7 +86,7 @@ export class DebtsComponent {
     }
   }
 
-  callDebts(creditorDto:GetDebtsDto, debtorDto:GetDebtsDto){
+  callDebts(debtorDto:GetDebtsDto, creditorDto:GetDebtsDto){
     forkJoin({
       userDebts: this.debtsService.GetDebts(debtorDto),
       debtors: this.debtsService.GetDebts(creditorDto)
